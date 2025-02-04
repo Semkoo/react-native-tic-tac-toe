@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontFamily": "SpaceMono",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly with children 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontFamily": "SpaceMono",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly with children and style 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontFamily": "SpaceMono",
+      },
+      {
+        "color": "red",
+      },
+    ]
+  }
+>
+  Test
+</Text>
+`;
