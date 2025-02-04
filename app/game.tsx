@@ -16,6 +16,7 @@ export default function Game() {
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
 
   const gameResult = useMemo(() => getBoardResult(state), [state]);
+
   const getWinner = useCallback(
     (winnerSymbol: Cell): 'HUMAN' | 'BOT' | 'DRAW' => {
       if (winnerSymbol === 'x') {
