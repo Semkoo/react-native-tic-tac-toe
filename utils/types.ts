@@ -6,8 +6,8 @@ export type Moves = number;
 export type BoardResult = {
   winner: Cell;
   direction?: 'VERTICAL' | 'HORIZONTAL' | 'DIAGONAL';
-  column?: 1 | 2 | 3;
-  row?: 1 | 2 | 3;
+  column?: number;
+  row?: number;
   diagonal?: 'MAIN' | 'COUNTER';
 };
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
-import Board from '@/components/Board';
+import Board from '@/components/board/Board';
 import colors from '@/utils/colors';
 import { BoardState, Cell, GameMode } from '@/utils/types';
 import { getBoardResult, isEmpty } from '@/utils/board';
@@ -99,11 +99,19 @@ export default function Game() {
             </View>
           </View>
         ) : (
-          <Board
-            state={state}
-            disabled={Boolean(gameResult) || turn === 'BOT'}
-            onCellPressed={handleOnCellPressed}
-          />
+          <>
+            <Board
+              state={state}
+              disabled={Boolean(gameResult) || turn === 'BOT'}
+              onCellPressed={handleOnCellPressed}
+              gameResult={gameResult}
+            />
+            {!gameResult && (
+              <Text style={styles.turnIndicator}>
+                {turn === 'HUMAN' ? 'Your turn' : "Computer's turn"}
+              </Text>
+            )}
+          </>
         )}
       </View>
     </GradientBackground>
@@ -172,5 +180,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     textAlign: 'center',
     marginBottom: 30,
+  },
+  turnIndicator: {
+    color: colors.lightGreen,
+    fontSize: 24,
+    marginTop: 30,
+    textAlign: 'center',
   },
 });

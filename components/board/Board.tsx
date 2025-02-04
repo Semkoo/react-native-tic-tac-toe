@@ -4,7 +4,7 @@ import Text from '@/components/ui/Text';
 import colors from '@/utils/colors';
 import { BoardState, BoardResult, Moves } from '@/utils/types';
 import * as Haptics from 'expo-haptics';
-
+import BoardLine from './BoardLine';
 type BoardProps = {
   state: BoardState;
   size?: number;
@@ -55,6 +55,7 @@ export default function Board({
           </TouchableOpacity>
         ))}
       </View>
+      {gameResult && <BoardLine size={size} gameResult={gameResult} />}
     </View>
   );
 }
