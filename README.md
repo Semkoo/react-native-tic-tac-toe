@@ -1,4 +1,4 @@
-# react-native-tic-tac-toe
+# REACT NATIVE TIC TAC TOE
 
 ## Project Overview
 
@@ -9,7 +9,7 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/yourusername/react-native-tic-tac-toe.git
+   git clone https://github.com/Semkoo/react-native-tic-tac-toe.git
    cd react-native-tic-tac-toe
    ```
 
@@ -34,7 +34,7 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 **Requirements:**
 
 - Node.js 20 or higher
-- npm or yarn
+- npm or yarn or pnpm or bun
 - Expo Go app (for mobile testing)
 - Android Studio (for Android emulator)
 - Xcode (for iOS simulator, macOS only)
@@ -72,6 +72,8 @@ The game implements the following key components:
 
    - Minimax algorithm for unbeatable AI moves
      - The minimax algorithm is a decision rule used to determine the best possible move in games where all possible moves can be foreseen like tic-tac-toe or chess.
+     - The algorithm works by exploring all possible moves and selecting the one that maximizes the score for the current player while minimizing the score for the opponent.
+     - The algorithm is recursive and explores all possible moves and scores them. The score is calculated based on the total score and the depth of the move. The depth is the number of moves made from the current position to the end of the game .
 
 3. **Win Detection**
    - Check rows, columns, and diagonals
@@ -83,9 +85,11 @@ The interface is designed with the following considerations:
 
 1. **Game Flow**
 
-   - Welcome screen with player choice (X/O)
-   - Game board with clear cell indicators
-   - Status messages for game progress
+   - Welcome screen with new game button
+   - Game screen with game board
+     - Let the user choose if they want to go first or let the computer go first
+     - Game board with 3x3 grid
+     - Game status messages for game progress
    - Reset button for new games
 
 2. **Visual Design**
@@ -95,6 +99,8 @@ The interface is designed with the following considerations:
    - Distinctive X and O symbols
 
 ## Project Structure
+
+- This project is built on [Expo](https://expo.dev) and leverages [Expo Router](https://docs.expo.dev/router/introduction/) for navigation. The codebase follows this organizational structure:
 
 ```
 app/
