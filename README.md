@@ -133,11 +133,11 @@ utils/
 
 ### Home Screen
 
-![Home Screen](./screenshots/home-screen.png)
+<img src="./screenshots/home-screen.png" width="30%" />
 
 ### Game Screen
 
-![Game Screen](./screenshots/game-screen.png)
+<img src="./screenshots/game-screen.png" width="30%" />
 
 ---
 
