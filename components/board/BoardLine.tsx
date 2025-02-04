@@ -86,13 +86,13 @@ const style = StyleSheet.create({
     backgroundColor: colors.lightGreen,
   },
   vLine: {
-    width: 4,
+    width: 1,
   },
   hLine: {
-    height: 4,
+    height: 1,
   },
   dLine: {
-    width: 4,
+    width: 1,
     top: 0,
     left: '50%',
   },

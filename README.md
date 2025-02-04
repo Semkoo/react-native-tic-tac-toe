@@ -135,9 +135,9 @@ utils/
 
 <img src="./screenshots/home-screen.png" width="30%" />
 
-### Game Screen
+### Game Screen, Draw Screen, and Lost Screen
 
-<img src="./screenshots/game-screen.png" width="30%" />
+<img src="./screenshots/game-screen.png" width="30%" /> <img src="./screenshots/game-draw-screen.png" width="30%" /> <img src="./screenshots/game-lost-screen.png" width="30%" />
 
 ---
 

@@ -1,6 +1,5 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import React from 'react';
-import Text from '@/components/ui/Text';
 import colors from '@/utils/colors';
 import { BoardState, BoardResult, Moves } from '@/utils/types';
 import * as Haptics from 'expo-haptics';
@@ -23,6 +22,25 @@ export default function Board({
 }: BoardProps) {
   const gridSize = Math.sqrt(state.length); // Calculate grid dimensions (3 for 3x3, 4 for 4x4, etc.)
   const cellPercentage = (100 / gridSize).toFixed(5) + '%';
+
+  const animatedValues = React.useRef(state.map(() => new Animated.Value(0))).current;
+
+  React.useEffect(() => {
+    state.forEach((cell, index) => {
+      if (cell !== null) {
+        Animated.spring(animatedValues[index], {
+          toValue: 1,
+          useNativeDriver: true,
+          friction: 7,
+          tension: 40,
+        }).start();
+      } else {
+        animatedValues[index].setValue(0);
+      }
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
@@ -51,7 +69,17 @@ export default function Board({
               styles.cell,
               { width: cellPercentage as `${number}%`, height: cellPercentage as `${number}%` },
             ]}>
-            <Text style={[styles.cellText, { fontSize: size / (gridSize * 2.5) }]}>{cell}</Text>
+            <Animated.Text
+              style={[
+                styles.cellText,
+                {
+                  fontSize: size / (gridSize * 2.5),
+                  opacity: animatedValues[index],
+                  transform: [{ scale: animatedValues[index] }],
+                },
+              ]}>
+              {cell}
+            </Animated.Text>
           </TouchableOpacity>
         ))}
       </View>

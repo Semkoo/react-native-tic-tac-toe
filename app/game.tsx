@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import GradientBackground from '@/components/GradientBackground';
 import Board from '@/components/board/Board';
 import colors from '@/utils/colors';
@@ -9,9 +9,17 @@ import { getBestMove } from '@/utils/minimax';
 import Text from '@/components/ui/Text';
 import Button from '@/components/ui/Button';
 
+const INITIAL_BOARD_STATE = Array(9).fill(null) as BoardState;
+
+//Advantage to finish on first move
+const CENTER_AND_CORNERS = [0, 2, 6, 8, 4];
+
+const SCREEN_SIZE = Dimensions.get('window').width;
+const BOARD_SIZE = SCREEN_SIZE * 0.8;
+
 export default function Game() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [state, setState] = useState<BoardState>(Array(9).fill(null) as BoardState);
+  const [state, setState] = useState<BoardState>(INITIAL_BOARD_STATE);
   const [turn, setTurn] = useState<GameMode>();
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
 
@@ -56,25 +64,20 @@ export default function Game() {
     setIsHumanMaximizing(humanFirst);
   }, []);
 
-  useEffect(() => {
-    if (gameResult) {
-      const winner = getWinner(gameResult.winner);
+  const newGame = useCallback(() => {
+    setGameStarted(false);
+    setState(INITIAL_BOARD_STATE);
+    setTurn('HUMAN');
+    setIsHumanMaximizing(true);
+  }, []);
 
-      if (winner === 'DRAW') {
-        // TODO:: ADD a Notification Haptic
-        Alert.alert('Game Over', 'It is a draw!');
-      } else if (winner === 'HUMAN') {
-        // TODO:: ADD a Notification Haptic
-        Alert.alert('Game Over', 'You won!');
-      } else {
-        // TODO:: ADD a Notification Haptic
-        Alert.alert('Game Over', 'You lost!');
-      }
-    } else {
-      if (turn === 'BOT') {
+  useEffect(() => {
+    if (turn === 'BOT') {
+      // Add a small delay before the bot makes its move
+      const timeoutId = setTimeout(() => {
         if (isEmpty(state)) {
-          const centerAndCorners = [0, 2, 6, 8, 4];
-          const firstMove = centerAndCorners[Math.floor(Math.random() * centerAndCorners.length)];
+          const firstMove =
+            CENTER_AND_CORNERS[Math.floor(Math.random() * CENTER_AND_CORNERS.length)];
           insertCell(firstMove, 'x');
           setIsHumanMaximizing(false);
           setTurn('HUMAN');
@@ -83,9 +86,12 @@ export default function Game() {
           insertCell(best, isHumanMaximizing ? 'o' : 'x');
           setTurn('HUMAN');
         }
-      }
+      }, 500); // 500ms delay
+
+      // Cleanup timeout on unmount or when dependencies change
+      return () => clearTimeout(timeoutId);
     }
-  }, [gameResult, getWinner, insertCell, isHumanMaximizing, state, turn]);
+  }, [insertCell, isHumanMaximizing, state, turn]);
 
   return (
     <GradientBackground>
@@ -105,11 +111,23 @@ export default function Game() {
               disabled={Boolean(gameResult) || turn === 'BOT'}
               onCellPressed={handleOnCellPressed}
               gameResult={gameResult}
+              size={BOARD_SIZE}
             />
             {!gameResult && (
               <Text style={styles.turnIndicator}>
-                {turn === 'HUMAN' ? 'Your turn' : "Computer's turn"}
+                {turn === 'HUMAN' ? 'Your turn' : "Opponent's turn"}
               </Text>
+            )}
+
+            {gameResult && (
+              <View style={styles.modal}>
+                <Text style={styles.modalText}>
+                  {getWinner(gameResult.winner) === 'HUMAN' && 'You Won'}
+                  {getWinner(gameResult.winner) === 'BOT' && 'You Lost'}
+                  {getWinner(gameResult.winner) === 'DRAW' && "It's a Draw"}
+                </Text>
+                <Button onPress={newGame} title="Play Again" />
+              </View>
             )}
           </>
         )}
@@ -167,7 +185,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     position: 'absolute',
-    backgroundColor: colors.lightPurple,
+    backgroundColor: colors.darkPurple,
     bottom: 40,
     left: 30,
     right: 30,

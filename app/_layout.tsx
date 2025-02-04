@@ -3,7 +3,6 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,29 +22,30 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: 'Home',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="game"
-          options={{
-            title: '',
-            headerShown: true,
-            headerTransparent: true,
-            headerTintColor: colors.lightGreen,
-            headerBackTitle: 'Exit Game',
-            headerStyle: {
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
-      </Stack>
-    </SafeAreaProvider>
+    <Stack
+      screenOptions={{
+        orientation: 'portrait_down',
+      }}>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="game"
+        options={{
+          title: '',
+          headerShown: true,
+          headerTransparent: true,
+          headerTintColor: colors.lightGreen,
+          headerBackTitle: 'Exit Game',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+        }}
+      />
+    </Stack>
   );
 }
