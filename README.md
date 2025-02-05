@@ -4,6 +4,16 @@
 
 This project is a single-player unbeatable Tic Tac Toe game built in React Native and Expo, featuring an AI opponent that uses the minimax algorithm to make optimal moves.
 
+## Screenshots
+
+### Home Screen
+
+<img src="./screenshots/home-screen.png" width="30%" />
+
+### Game Screen, Draw Screen, and Lost Screen
+
+<img src="./screenshots/game-screen.png" width="30%" /> <img src="./screenshots/game-draw-screen.png" width="30%" /> <img src="./screenshots/game-lost-screen.png" width="30%" />
+
 ## How to run the project locally
 
 1. Clone the repository
@@ -128,16 +138,6 @@ utils/
 - Include game statistics tracking
 - Add multiplayer support via local play
 - Implement undo/redo functionality
-
-## Screenshots
-
-### Home Screen
-
-<img src="./screenshots/home-screen.png" width="30%" />
-
-### Game Screen, Draw Screen, and Lost Screen
-
-<img src="./screenshots/game-screen.png" width="30%" /> <img src="./screenshots/game-draw-screen.png" width="30%" /> <img src="./screenshots/game-lost-screen.png" width="30%" />
 
 ---
 
