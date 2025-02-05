@@ -56,7 +56,7 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 - TypeScript
 - Expo
 - ESLint & Prettier - For code quality
-- Jest - For testing game logic
+- Jest
 
 ## Approach
 
