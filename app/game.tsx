@@ -8,6 +8,8 @@ import { getBoardResult, isEmpty } from '@/utils/board';
 import { getBestMove } from '@/utils/minimax';
 import Text from '@/components/ui/Text';
 import Button from '@/components/ui/Button';
+import { GameResult } from '@/components/GameResult';
+import { GameStart } from '@/components/GameStart';
 
 const INITIAL_BOARD_STATE = Array(9).fill(null) as BoardState;
 
@@ -24,19 +26,6 @@ export default function Game() {
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
 
   const gameResult = useMemo(() => getBoardResult(state), [state]);
-
-  const getWinner = useCallback(
-    (winnerSymbol: Cell): 'HUMAN' | 'BOT' | 'DRAW' => {
-      if (winnerSymbol === 'x') {
-        return isHumanMaximizing ? 'HUMAN' : 'BOT';
-      }
-      if (winnerSymbol === 'o') {
-        return isHumanMaximizing ? 'BOT' : 'HUMAN';
-      }
-      return 'DRAW';
-    },
-    [isHumanMaximizing]
-  );
 
   const insertCell = useCallback(
     (index: number, value: Cell) => {
@@ -58,13 +47,13 @@ export default function Game() {
     [insertCell, isHumanMaximizing, turn]
   );
 
-  const startGame = useCallback((humanFirst: boolean) => {
+  const handleOnStartGame = useCallback((humanFirst: boolean) => {
     setGameStarted(true);
     setTurn(humanFirst ? 'HUMAN' : 'BOT');
     setIsHumanMaximizing(humanFirst);
   }, []);
 
-  const newGame = useCallback(() => {
+  const handleOnNewGame = useCallback(() => {
     setGameStarted(false);
     setState(INITIAL_BOARD_STATE);
     setTurn('HUMAN');
@@ -72,38 +61,31 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    if (turn === 'BOT') {
-      // Add a small delay before the bot makes its move
-      const timeoutId = setTimeout(() => {
-        if (isEmpty(state)) {
-          const firstMove =
-            CENTER_AND_CORNERS[Math.floor(Math.random() * CENTER_AND_CORNERS.length)];
-          insertCell(firstMove, 'x');
-          setIsHumanMaximizing(false);
-          setTurn('HUMAN');
-        } else {
-          const best = getBestMove(state, !isHumanMaximizing, 0, -1);
-          insertCell(best, isHumanMaximizing ? 'o' : 'x');
-          setTurn('HUMAN');
-        }
-      }, 500); // 500ms delay
+    if (turn !== 'BOT') return;
 
-      // Cleanup timeout on unmount or when dependencies change
-      return () => clearTimeout(timeoutId);
-    }
+    // Add a small delay before the bot makes its move
+    const timeoutId = setTimeout(() => {
+      if (isEmpty(state)) {
+        const firstMove = CENTER_AND_CORNERS[Math.floor(Math.random() * CENTER_AND_CORNERS.length)];
+        insertCell(firstMove, 'x');
+        setIsHumanMaximizing(false);
+        setTurn('HUMAN');
+      } else {
+        const best = getBestMove(state, !isHumanMaximizing, 0, -1);
+        insertCell(best, isHumanMaximizing ? 'o' : 'x');
+        setTurn('HUMAN');
+      }
+    }, 500); // 500ms delay
+
+    // Cleanup timeout on unmount or when dependencies change
+    return () => clearTimeout(timeoutId);
   }, [insertCell, isHumanMaximizing, state, turn]);
 
   return (
     <GradientBackground>
       <View style={styles.container}>
         {!gameStarted ? (
-          <View style={styles.startOptions}>
-            <Text style={styles.startTitle}>Who goes first?</Text>
-            <View style={styles.buttonContainer}>
-              <Button title="You" onPress={() => startGame(true)} />
-              <Button title="Computer" onPress={() => startGame(false)} />
-            </View>
-          </View>
+          <GameStart onStartGame={handleOnStartGame} />
         ) : (
           <>
             <Board
@@ -120,14 +102,11 @@ export default function Game() {
             )}
 
             {gameResult && (
-              <View style={styles.modal}>
-                <Text style={styles.modalText}>
-                  {getWinner(gameResult.winner) === 'HUMAN' && 'You Won'}
-                  {getWinner(gameResult.winner) === 'BOT' && 'You Lost'}
-                  {getWinner(gameResult.winner) === 'DRAW' && "It's a Draw"}
-                </Text>
-                <Button onPress={newGame} title="Play Again" />
-              </View>
+              <GameResult
+                winner={gameResult.winner}
+                isHumanMaximizing={isHumanMaximizing}
+                onNewGame={handleOnNewGame}
+              />
             )}
           </>
         )}
@@ -182,22 +161,6 @@ const styles = StyleSheet.create({
   resultsCount: {
     color: colors.darkPurple,
     fontSize: 20,
-  },
-  modal: {
-    position: 'absolute',
-    backgroundColor: colors.darkPurple,
-    bottom: 40,
-    left: 30,
-    right: 30,
-    padding: 30,
-    borderWidth: 3,
-    borderColor: colors.lightGreen,
-  },
-  modalText: {
-    color: colors.lightGreen,
-    fontSize: 28,
-    textAlign: 'center',
-    marginBottom: 30,
   },
   turnIndicator: {
     color: colors.lightGreen,
