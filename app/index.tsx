@@ -15,6 +15,7 @@ export default function Index() {
 
         <View style={styles.buttons}>
           <Button title="New Game" onPress={() => router.push('/game')} />
+          <Button title="Game History" onPress={() => router.push('/game-history')} />
         </View>
       </ScrollView>
     </GradientBackground>

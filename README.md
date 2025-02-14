@@ -14,6 +14,10 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 
 <img src="./screenshots/game-screen.png" width="30%" /> <img src="./screenshots/game-draw-screen.png" width="30%" /> <img src="./screenshots/game-lost-screen.png" width="30%" />
 
+### Game History Screen
+
+<img src="./screenshots/game-history-screen.png" width="30%" />
+
 ## How to run the project locally
 
 1. Clone the repository
@@ -59,6 +63,18 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 5. User can start a new game once current one is completed
 6. All games must result in either end in a tie or user loss. The computer player has to be unbeatable.
 7. Must provide a Readme containing instructions on how to run the game as well as technical details explaining their approach and tools used.
+
+## Game History
+
+The game keeps track of your match history, including:
+
+- Total games played
+- Games won by AI
+- Games ending in a draw
+- Win/Loss ratio
+- Longest winning/losing streaks
+
+This data persists between sessions using AsyncStorage, allowing you to track your performance over time.
 
 ## Tech Stack
 

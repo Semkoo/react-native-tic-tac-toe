@@ -7,9 +7,9 @@ import { BoardState, Cell, GameMode } from '@/utils/types';
 import { getBoardResult, isEmpty } from '@/utils/board';
 import { getBestMove } from '@/utils/minimax';
 import Text from '@/components/ui/Text';
-import Button from '@/components/ui/Button';
 import { GameResult } from '@/components/GameResult';
 import { GameStart } from '@/components/GameStart';
+import { useGameHistory } from '@/contexts/game-history-context';
 
 const INITIAL_BOARD_STATE = Array(9).fill(null) as BoardState;
 
@@ -20,6 +20,7 @@ const SCREEN_SIZE = Dimensions.get('window').width;
 const BOARD_SIZE = SCREEN_SIZE * 0.8;
 
 export default function Game() {
+  const { add } = useGameHistory();
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [state, setState] = useState<BoardState>(INITIAL_BOARD_STATE);
   const [turn, setTurn] = useState<GameMode>();
@@ -80,6 +81,18 @@ export default function Game() {
     // Cleanup timeout on unmount or when dependencies change
     return () => clearTimeout(timeoutId);
   }, [insertCell, isHumanMaximizing, state, turn]);
+
+  useEffect(() => {
+    if (gameResult) {
+      const gameHistory = {
+        id: Date.now().toString(),
+        date: String(new Date()),
+        result: gameResult.winner === 'x' ? 'Computer Won' : 'Draw',
+      };
+
+      add(gameHistory);
+    }
+  }, [gameResult, state, add]);
 
   return (
     <GradientBackground>
