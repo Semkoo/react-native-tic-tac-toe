@@ -6,17 +6,13 @@ This project is a single-player unbeatable Tic Tac Toe game built in React Nativ
 
 ## Screenshots
 
-### Home Screen
-
-<img src="./screenshots/home-screen.png" width="30%" />
-
-### Game Screen, Draw Screen, and Lost Screen
-
-<img src="./screenshots/game-screen.png" width="30%" /> <img src="./screenshots/game-draw-screen.png" width="30%" /> <img src="./screenshots/game-lost-screen.png" width="30%" />
-
-### Game History Screen
-
-<img src="./screenshots/game-history-screen.png" width="30%" />
+| Screen       | Screenshot                                                                           | Description                                         |
+| ------------ | ------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| Home Screen  | <img src="./screenshots/home-screen.png" width="250px" alt="Home Screen" />          | Start a new game or view game history               |
+| Game Screen  | <img src="./screenshots/game-screen.png" width="250px" alt="Game Screen" />          | Play Tic Tac Toe against the unbeatable AI opponent |
+| Draw Screen  | <img src="./screenshots/game-draw-screen.png" width="250px" alt="Draw Screen" />     | Game ends in a draw when neither player wins        |
+| Lost Screen  | <img src="./screenshots/game-lost-screen.png" width="250px" alt="Lost Screen" />     | Game over screen when AI wins the match             |
+| Game History | <img src="./screenshots/game-history-screen.png" width="250px" alt="Game History" /> | View history of all played games and their outcomes |
 
 ## How to run the project locally
 
